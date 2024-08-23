@@ -36,14 +36,14 @@ def startup():
 	global config
 	global hubert_model
 	global tts
+	[Path(_dir).mkdir(parents=True, exist_ok=True) for _dir in ['./models/xtts', './voices', './rvcs']]
+	download_models()
 	device = "cuda:0" if torch.cuda.is_available() else "cpu"
 	print("Device: " + device) 
 
 	config = Config(device, device != 'cpu')
 	hubert_model = load_hubert(device, config.is_half, "./models/hubert_base.pt")
 	[Path(_dir).mkdir(parents=True, exist_ok=True) for _dir in ['./models/xtts', './voices', './rvcs']]
-
-	download_models()
 	tts = TTS(model_path="./models/xtts", config_path='./models/xtts/config.json').to(device)
 
 	import melo_tts

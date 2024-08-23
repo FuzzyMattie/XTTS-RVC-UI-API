@@ -1,0 +1,1 @@
+aiohttp anyascii bangla bnnumerizer bnunicodenormalizer coqpit cython einops encodec flask fsspec g2pkk gruut hangul-romanize inflect jamo jieba librosa matplotlib nltk num2words numba numpy packaging pandas pypinyin pysbd pyyaml scikit-learn scipy soundfile spacy torch torchaudio tqdm trainer transformers umap-learn unidecode

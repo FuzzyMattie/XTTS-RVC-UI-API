@@ -6,29 +6,29 @@ This is a simple UI that utilize's [Coqui's XTTSv2](https://github.com/coqui-ai/
 
 - Requires MSVC - VC 2022 C++ x64/x86 build tools.
 
-# Usage
+# Installation
 
 Clone this repository:
 
-```
-git clone https://github.com/Vali-98/XTTS-RVC-UI.git
-```
+`install.sh` does not yet work, but is being worked on.
 
-It is recommended to create a venv.
-
-Then, install the requirements:
+If you want to try to install it anyways, here is a somewhat manual guide:
 
 ```
+git clone https://github.com/MagicMari/XTTS-RVC-UI-API.git
 pip install -r requirements.txt
-```
-
-If you have a CUDA device available, it is also recommended to install PyTorch with CUDA for faster conversions.
-
-```
 pip install torch==2.1.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu118
 ```
 
-Then run `start.bat` , `start.sh` or simply `python app.py`
+Then follow these guides, and issuie pages:
+https://github.com/myshell-ai/MeloTTS/blob/main/docs/install.md
+https://github.com/myshell-ai/MeloTTS/pull/124
+https://github.com/myshell-ai/OpenVoice/blob/main/docs/USAGE.md#linux-install
+https://github.com/vladmandic/automatic/discussions/540
+
+# Usage
+
+Run `start.bat` , `start.sh`
 
 This will create the following folders within the project:
 
