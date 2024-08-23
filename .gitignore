@@ -5,3 +5,9 @@ models
 __pycache__
 *.wav
 samples
+MeloTTS
+OpenVoice
+outputs_v2
+processed
+voice_models.json
+instalation-notes.txt
