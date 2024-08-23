@@ -79,7 +79,6 @@ def runtts(rvc, text, pitch_change, index_rate, language):
 
 
 def runtts(voice_model ,text, pitch_change, index_rate):
-    #{'model': 'OpenVoice', 'rvc_path': 'egirl', 'reference_voice': 'girl-voice-2.wav', 'language': 'EN_NEWEST'}
 	voice_model = json.loads(voice_model)
 	voice_model = dict(voice_model)
 	modelname = voice_model["rvc_path"]
