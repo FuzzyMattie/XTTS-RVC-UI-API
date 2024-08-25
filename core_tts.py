@@ -1,8 +1,7 @@
 import torch
-from TTS.api import TTS
-import gradio as gr
+#from TTS.api import TTS
 from rvc import Config, load_hubert, get_vc, rvc_infer
-import gc , os, sys, argparse, requests
+import gc , os, requests
 from pathlib import Path
 import json
 
@@ -20,14 +19,14 @@ def download_models():
 			with open(f'./models/{file}', 'wb') as f:
 					f.write(r.content)
 
-	xtts_files = ['vocab.json', 'config.json', 'dvae.path', 'mel_stats.pth', 'model.pth']
+	#xtts_files = ['vocab.json', 'config.json', 'dvae.path', 'mel_stats.pth', 'model.pth']
 
-	for file in xtts_files:
-		if(not os.path.isfile(f'./models/xtts/{file}')):
-			print(f'Downloading {file}')
-			r = requests.get(f'https://huggingface.co/coqui/XTTS-v2/resolve/v2.0.2/{file}')
-			with open(f'./models/xtts/{file}', 'wb') as f:
-				f.write(r.content)
+	#for file in xtts_files:
+	#	if(not os.path.isfile(f'./models/xtts/{file}')):
+	#		print(f'Downloading {file}')
+	#		r = requests.get(f'https://huggingface.co/coqui/XTTS-v2/resolve/v2.0.2/{file}')
+	#		with open(f'./models/xtts/{file}', 'wb') as f:
+	#			f.write(r.content)
 				
 
 
@@ -35,7 +34,7 @@ def startup():
 	global device
 	global config
 	global hubert_model
-	global tts
+	#global tts
 	[Path(_dir).mkdir(parents=True, exist_ok=True) for _dir in ['./models/xtts', './voices', './rvcs']]
 	download_models()
 	device = "cuda:0" if torch.cuda.is_available() else "cpu"
@@ -43,8 +42,7 @@ def startup():
 
 	config = Config(device, device != 'cpu')
 	hubert_model = load_hubert(device, config.is_half, "./models/hubert_base.pt")
-	[Path(_dir).mkdir(parents=True, exist_ok=True) for _dir in ['./models/xtts', './voices', './rvcs']]
-	tts = TTS(model_path="./models/xtts", config_path='./models/xtts/config.json').to(device)
+	#tts = TTS(model_path="./models/xtts", config_path='./models/xtts/config.json').to(device)
 
 	import melo_tts
 	global tts_melo
@@ -65,16 +63,16 @@ def get_rvc_voices():
 	return [rvcs, voices]
 
 #deprecated
-def runtts(rvc, voice, text, pitch_change, index_rate, language): 
-    audio = tts.tts_to_file(text=text, speaker_wav="./voices/" + voice, language=language, file_path="./output.wav")
-    voice_change(rvc, pitch_change, index_rate)
-    return ["./output.wav" , "./outputrvc.wav"]
+#def runtts(rvc, voice, text, pitch_change, index_rate, language): 
+#   audio = tts.tts_to_file(text=text, speaker_wav="./voices/" + voice, language=language, file_path="./output.wav")
+#    voice_change(rvc, pitch_change, index_rate)
+#    return ["./output.wav" , "./outputrvc.wav"]
 #deprecated
-def runtts(rvc, text, pitch_change, index_rate, language):
-	modelname = str(rvc).replace(".pth","")
-	audio = tts.tts_to_file(text=text, speaker_wav="./rvcs/"+ modelname + "/" + modelname + ".wav", language=language, file_path="./output.wav")
-	voice_change(rvc, pitch_change, index_rate)
-	return ["./output.wav" , "./outputrvc.wav"]
+#def runtts(rvc, text, pitch_change, index_rate, language):
+#	modelname = str(rvc).replace(".pth","")
+#	audio = tts.tts_to_file(text=text, speaker_wav="./rvcs/"+ modelname + "/" + modelname + ".wav", language=language, file_path="./output.wav")
+#	voice_change(rvc, pitch_change, index_rate)
+#	return ["./output.wav" , "./outputrvc.wav"]
 
 
 
@@ -86,17 +84,9 @@ def runtts(voice_model ,text, pitch_change, index_rate):
 	reference_voice = voice_model["reference_voice"]
 	tts_model = voice_model["model"]
 	lang = voice_model["language"]
-	if tts_model == "XTTS":
-		if lang == "EN_NEWEST":
-			lang = "en"
-		else:
-			lang = str(lang).lower()
-		audio = tts.tts_to_file(text=text, speaker_wav="./voices/"+ reference_voice, language=lang, file_path="./output.wav")
-	elif tts_model == "OpenVoice":
-		audio = tts_openvoice.tts_to_file(text=text, reference_speaker="./voices/"+ reference_voice, language=lang, file_path="./output.wav")
-	elif tts_model == "MeloTTS":
-		audio = tts_melo.tts_to_file(text=text, speaker_wav="./voices/"+ reference_voice, language=lang, file_path="./output.wav")
+	audio = tts_openvoice.tts_to_file(text=text, reference_speaker="./voices/"+ reference_voice, language=lang, file_path="./output.wav")
 	voice_change(rvc, pitch_change, index_rate)
+	#Apply HiFi-GAN then output
 	return ["./output.wav" , "./outputrvc.wav"]
 
 def main():
