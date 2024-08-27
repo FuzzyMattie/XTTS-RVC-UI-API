@@ -12,3 +12,5 @@ processed
 voice_models.json
 instalation-notes.txt
 requirements_old.txt
+pretrained_models
+tmpdir_vocoder
