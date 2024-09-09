@@ -1,9 +1,0 @@
-conda create -n ultimateTTS python=3.9
-conda activate ultimateTTS
-conda install anaconda::cython
-conda install -c conda-forge cxx-compiler
-conda install conda-forge::gcc
-pip install nemo_toolkit[all]==1.21
-pip install huggingface-hub==0.22.0
-pip install tensorflow
-pip install torchvision

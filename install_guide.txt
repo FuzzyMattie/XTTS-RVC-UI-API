@@ -1,0 +1,18 @@
+python3.9 -m venv venv
+pip install -r requirements.txt
+conda create -n magic python=3.9
+conda activate magic
+git clone https://github.com/myshell-ai/MeloTTS.git
+cd MeloTTS
+pip install -e .
+python -m unidic download
+git clone https://github.com/myshell-ai/OpenVoice.git
+cd OpenVoice
+pip install -e .
+
+conda install -c "nvidia/label/cuda-11.8.0" cuda-toolkit
+python3 -m pip install nvidia-cudnn-cu11==8.9.2.26
+mkdir -p $CONDA_PREFIX/etc/conda/activate.d
+echo 'CUDNN_PATH=$(dirname $(python -c "import nvidia.cudnn;print(nvidia.cudnn.__file__)"))' >> $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh
+echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/:$CUDNN_PATH/lib' >> $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh
+source $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh
